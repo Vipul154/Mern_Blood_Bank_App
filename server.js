@@ -1,10 +1,10 @@
-const express = require('express');
+const express = require("express");
 //importing other packages
-const colors = require('colors');
-const cors = require('cors');
-const morgan = require('morgan');
-const connectDB = require('./config/db');
-const dotenv = require('dotenv');
+const colors = require("colors");
+const cors = require("cors");
+const morgan = require("morgan");
+const connectDB = require("./config/db");
+const dotenv = require("dotenv");
 
 //dotenv config
 dotenv.config();
@@ -13,27 +13,25 @@ dotenv.config();
 connectDB();
 
 //Now we are creating the rest object, which is used for getting all the functionalities of the express()
-const app = express()
+const app = express();
 
 //Now we are creating a port
 const PORT = process.env.PORT || 8080;
 
-
-
 //Adding in middlewares
 app.use(cors());
-app.use(express.json()) //for handling json response in application
-app.use (morgan('dev')) //the mode for morgan package, used for printing the http response and url hit with time taken
+app.use(express.json()); //for handling json response in application
+app.use(morgan("dev")); //the mode for morgan package, used for printing the http response and url hit with time taken
 
 //We need to create a route
-app.get('/', (requst, response)=>{
-    //using request, we can take requests from the user.
-    //using response, we can give response to the user.
-    response.status(200).json({
-        message : 'Welcome to the Blood Bank Management HI there'
-    })
-})
- 
+app.get("/", (requst, response) => {
+  //using request, we can take requests from the user.
+  //using response, we can give response to the user.
+  response.status(200).json({
+    message: "Welcome to the Blood Bank Management HI there",
+  });
+});
+
 //Me Adding a test route
 /*
 app.get('/testWithoutMvc', (request, response)=>{
@@ -42,7 +40,10 @@ app.get('/testWithoutMvc', (request, response)=>{
     })
 })
 */
-app.use('/api/v1/test', require('./routes/testroute'));
+app.use("/api/v1/test", require("./routes/testroute"));
+
+//auth Route
+app.use("/api/v1/auth", require("./routes/authRoutes"));
 
 //*Nodejs code does not get updated automatically, as we need to install another package called nodemon.
 //Normally this is not how real world apps are made, so we work using architectural models like MVC (Model-View-Controller) later.
@@ -53,6 +54,9 @@ app.use('/api/v1/test', require('./routes/testroute'));
 //This will be the endpoint : http://localhost:8080/test
 
 //listen is a function used to call the server
-app.listen(PORT, ()=>{
-    console.log(`Node Server Running in ${process.env.DEV_MODE} on port ${process.env.PORT}`.bgGreen.bgYellow);
-})
+app.listen(PORT, () => {
+  console.log(
+    `Node Server Running in ${process.env.DEV_MODE} on port ${process.env.PORT}`
+      .bgGreen.bgYellow
+  );
+});
