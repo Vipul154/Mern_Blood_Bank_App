@@ -1,6 +1,16 @@
 const express = require('express');
+//importing other packages
+const colors = require('colors');
+const cors = require('cors');
+const morgan = require('morgan');
+const connectDB = require('./config/db');
 const dotenv = require('dotenv');
+
+//dotenv config
 dotenv.config();
+
+//MOngoDB COnnection
+connectDB();
 
 //Now we are creating the rest object, which is used for getting all the functionalities of the express()
 const app = express()
@@ -8,10 +18,7 @@ const app = express()
 //Now we are creating a port
 const PORT = process.env.PORT || 8080;
 
-//importing other packages
-const colors = require('colors');
-const cors = require('cors');
-const morgan = require('morgan');
+
 
 //Adding in middlewares
 app.use(cors());
@@ -23,7 +30,7 @@ app.get('/', (requst, response)=>{
     //using request, we can take requests from the user.
     //using response, we can give response to the user.
     response.status(200).json({
-        message : 'Welcome to the Blood Bank Management System'
+        message : 'Welcome to the Blood Bank Management HI there'
     })
 })
  
