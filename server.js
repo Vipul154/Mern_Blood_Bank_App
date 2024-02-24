@@ -45,6 +45,9 @@ app.use("/api/v1/test", require("./routes/testroute"));
 //auth Route for register
 app.use("/api/v1/auth", require("./routes/authRoutes"));
 
+//auth Route for Inventory
+app.use("/api/v1/inventory", require("./routes/inventoryRoutes"));
+
 //*Nodejs code does not get updated automatically, as we need to install another package called nodemon.
 //Normally this is not how real world apps are made, so we work using architectural models like MVC (Model-View-Controller) later.
 //refer doc1
