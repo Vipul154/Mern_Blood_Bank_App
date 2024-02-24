@@ -81,5 +81,26 @@ const loginController = async (req, res) => {
   }
 };
 
+//GetCurrentUser API Controller
+const getCurrentUserController = async (req, res) => {
+  try {
+    const user = await userModel.findOne({ _id: req.body.userId });
+    return res.status(200).send({
+      success: true,
+      message: "User fetched successfully",
+      user,
+    });
+  } catch (err) {
+    console.log(error);
+    return res.status(500).send({
+      success: false,
+      message: "Not able to get User, Error in getCurrentUserAPI",
+    });
+  }
+};
 //export
-module.exports = { registerController, loginController };
+module.exports = {
+  registerController,
+  loginController,
+  getCurrentUserController,
+};
