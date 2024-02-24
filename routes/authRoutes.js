@@ -2,13 +2,19 @@
 
 //importing experss
 const express = require("express");
-const { registerController } = require("../controllers/authController");
+const {
+  registerController,
+  loginController,
+} = require("../controllers/authController");
 
 //creating the router object
 const router = express.Router();
 
 //register route
 router.post("/register", registerController);
+
+//login route
+router.post("/login", loginController);
 
 //export
 module.exports = router;

@@ -3,6 +3,10 @@ const userModel = require("../models/userModel");
 //importing the bcryptjs package for hashing our passwords
 const bcrypt = require("bcryptjs");
 
+//importing jsonwebtokens for the secure generation of tokens
+const jwt = require("jsonwebtoken");
+
+//register API Controller
 const registerController = async (req, res) => {
   try {
     const existingUser = await userModel.findOne({ email: req.body.email });
@@ -35,5 +39,47 @@ const registerController = async (req, res) => {
   }
 };
 
+//login API Controller
+const loginController = async (req, res) => {
+  try {
+    const user = await userModel.findOne({ email: req.body.email });
+    if (!user) {
+      return res.status(404).send({
+        success: false,
+        message: "Invalid Credentials. No such User Found",
+      });
+    }
+    //but if the user exists, we check the password
+    const comparePassword = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
+    if (!comparePassword) {
+      return res.status(404).send({
+        success: false,
+        message: "Invalid Credentials. Password is Incorrect.",
+      });
+    }
+    //if even the password matches, then we generata a token for the user
+    const payload = { userId: user._id };
+    const secretKey = process.env.JWT_SECRET;
+    const timeStamp = { expiresIn: "1d" };
+    const token = jwt.sign(payload, secretKey, timeStamp);
+    return res.status(200).send({
+      success: true,
+      message: "Login Successful",
+      token,
+      user,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in the Login API",
+      error,
+    });
+  }
+};
+
 //export
-module.exports = { registerController };
+module.exports = { registerController, loginController };

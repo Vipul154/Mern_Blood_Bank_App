@@ -42,7 +42,7 @@ app.get('/testWithoutMvc', (request, response)=>{
 */
 app.use("/api/v1/test", require("./routes/testroute"));
 
-//auth Route
+//auth Route for register
 app.use("/api/v1/auth", require("./routes/authRoutes"));
 
 //*Nodejs code does not get updated automatically, as we need to install another package called nodemon.
