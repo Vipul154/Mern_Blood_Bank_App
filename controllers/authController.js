@@ -49,6 +49,13 @@ const loginController = async (req, res) => {
         message: "Invalid Credentials. No such User Found",
       });
     }
+    //check role here:
+    if (user.role !== req.body.role) {
+      return res.status(500).send({
+        success: false,
+        message: "Role does not match",
+      });
+    }
     //but if the user exists, we check the password
     const comparePassword = await bcrypt.compare(
       req.body.password,
